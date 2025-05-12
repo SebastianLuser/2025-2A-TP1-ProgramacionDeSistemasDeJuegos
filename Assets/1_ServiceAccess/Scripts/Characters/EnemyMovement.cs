@@ -28,10 +28,5 @@ namespace Excercise1
             
             speed = newSpeed;
         }
-        
-        public float GetSpeed()
-        {
-            return speed;
-        }
     }
 }
