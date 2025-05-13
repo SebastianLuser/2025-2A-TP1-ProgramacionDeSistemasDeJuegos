@@ -21,8 +21,8 @@ namespace Gameplay
         private void Awake()
         {
             _character = GetComponent<Character>();
-            _stateMachine = new PlayerStateMachine(this);
-            _stateMachine.SetState(new GroundedState(this, _stateMachine));
+            _stateMachine = new PlayerStateMachine();
+            _stateMachine.Initialize(new GroundedState(this, _stateMachine));
         }
 
         private void OnEnable()
@@ -61,16 +61,9 @@ namespace Gameplay
             _stateMachine.HandleJump();
         }
 
-        private void OnCollisionEnter(Collision other)
+        private void OnCollisionEnter(Collision collision)
         {
-            foreach (var contact in other.contacts)
-            {
-                if (Vector3.Angle(contact.normal, Vector3.up) < 5)
-                {
-                    _stateMachine.SetState(new GroundedState(this, _stateMachine));
-                    break;
-                }
-            }
+            _stateMachine.OnCollisionEnter(collision);
         }
     }
 }

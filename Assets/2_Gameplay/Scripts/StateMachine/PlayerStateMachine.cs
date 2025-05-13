@@ -6,11 +6,11 @@ namespace Gameplay
     public class PlayerStateMachine
     {
         private IPlayerState _currentState;
-        private readonly PlayerController _context;
 
-        public PlayerStateMachine(PlayerController context)
+        public void Initialize(IPlayerState  firstState)
         {
-            _context = context;
+            _currentState = firstState;
+            _currentState.Enter();
         }
 
         public void SetState(IPlayerState newState)
@@ -29,5 +29,11 @@ namespace Gameplay
         {
             _currentState?.HandleJump();
         }
+
+        public void OnCollisionEnter(Collision collision)
+        {
+            _currentState?.OnCollisionEnter(collision);
+        }
+        
     }
 }

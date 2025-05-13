@@ -33,5 +33,17 @@ namespace Gameplay._2_Gameplay.StateMachine.States
         public void HandleJump()
         {
         }
+        public void OnCollisionEnter(Collision collision)
+        {
+            foreach (var contact in collision.contacts)
+            {
+                if (Vector3.Angle(contact.normal, Vector3.up) < 5)
+                {
+                    _stateMachine.SetState(new GroundedState(_controller, _stateMachine));
+                    break;
+                }
+            }
+        }
+        
     }
 }

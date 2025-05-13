@@ -26,5 +26,7 @@ namespace Gameplay._2_Gameplay.StateMachine.States
         {
             _stateMachine.SetState(new JumpingState(_controller, _stateMachine));
         }
+
+        public void OnCollisionEnter(Collision collision) { }
     }
 }

@@ -34,5 +34,18 @@ namespace Gameplay._2_Gameplay.StateMachine.States
         {
             _stateMachine.SetState(new DoubleJumpingState(_controller, _stateMachine));
         }
+        
+        public void OnCollisionEnter(Collision collision)
+        {
+            // Verificar si tocó el suelo
+            foreach (var contact in collision.contacts)
+            {
+                if (Vector3.Angle(contact.normal, Vector3.up) < 5)
+                {
+                    _stateMachine.SetState(new GroundedState(_controller, _stateMachine));
+                    break;
+                }
+            }
+        }
     }
 }

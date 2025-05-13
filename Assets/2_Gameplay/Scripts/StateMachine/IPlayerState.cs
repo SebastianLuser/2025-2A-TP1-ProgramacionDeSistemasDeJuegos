@@ -8,5 +8,6 @@ namespace Gameplay._2_Gameplay.StateMachine
         void Exit();
         void HandleMovement(Vector3 direction);
         void HandleJump();
+        void OnCollisionEnter(Collision collision);
     }
 }
