@@ -40,27 +40,28 @@ namespace Excercise1
             }
             
             _instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
-        public void TryAddCharacter(string id, ICharacter character)
+        public bool TryAddCharacter(string id, ICharacter character)
         {
             if (string.IsNullOrEmpty(id))
             {
                 Debug.LogError("Cannot add character with empty ID");
-                return;
+                return false;
             }
 
-            _charactersById.TryAdd(id, character);
+            return  _charactersById.TryAdd(id, character);
         }
-        public void TryRemoveCharacter(string id)
+        public bool TryRemoveCharacter(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
                 Debug.LogWarning("Attempted to remove character with empty ID");
-                return;
+                return false;
             }
 
-            _charactersById.Remove(id);
+            return  _charactersById.Remove(id);
         }
         
         public bool TryGetCharacter(string id, out ICharacter character)

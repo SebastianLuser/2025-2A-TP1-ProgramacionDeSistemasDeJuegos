@@ -20,15 +20,21 @@ namespace Excercise1
         
         private void RegisterWithService()
         {
-            CharacterService.Instance.TryAddCharacter(id, this);
+            if (!CharacterService.Instance.TryAddCharacter(id, this))
+            {
+                Debug.LogError($"Error in TryAddCharacter - Can't add character with ID: {id}");
+            }
         }
         
         private void UnregisterFromService()
         {
             if (string.IsNullOrEmpty(id))
                 return;
-                
-            CharacterService.Instance.TryRemoveCharacter(id);
+            
+            if (!CharacterService.Instance.TryRemoveCharacter(id))
+            {
+                Debug.LogError($"Error in TryRemoveCharacter - Can't remove character with ID: {id}");
+            }
         }
         
     }
