@@ -10,6 +10,7 @@ namespace Gameplay
         [SerializeField] private InputActionReference moveInput;
         [SerializeField] private InputActionReference jumpInput;
         [SerializeField] private float airborneSpeedMultiplier = .5f;
+        [SerializeField] private int maxJumps = 2;
         
         //TODO: This booleans are not flexible enough. If we want to have a third jump or other things, it will become a hazzle.
         private PlayerStateMachine _stateMachine;
@@ -17,6 +18,7 @@ namespace Gameplay
 
         public Character Character => _character;
         public float AirborneSpeedMultiplier => airborneSpeedMultiplier;
+        public int MaxJumps => maxJumps;
 
         private void Awake()
         {

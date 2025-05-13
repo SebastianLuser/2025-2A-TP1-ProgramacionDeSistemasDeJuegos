@@ -7,11 +7,20 @@ namespace Gameplay._2_Gameplay.StateMachine.States
         private readonly PlayerController _controller;
         private readonly PlayerStateMachine _stateMachine;
         private Coroutine _jumpCoroutine;
+        private readonly int _jumpCount;
 
         public JumpingState(PlayerController controller, PlayerStateMachine stateMachine)
         {
             _controller = controller;
             _stateMachine = stateMachine;
+            _jumpCount = 1;
+        }
+
+        private JumpingState(PlayerController controller, PlayerStateMachine stateMachine, int jumpCount)
+        {
+            _controller = controller;
+            _stateMachine = stateMachine;
+            _jumpCount = jumpCount;
         }
 
         public void Enter()
@@ -32,12 +41,14 @@ namespace Gameplay._2_Gameplay.StateMachine.States
 
         public void HandleJump()
         {
-            _stateMachine.SetState(new DoubleJumpingState(_controller, _stateMachine));
+            if (_jumpCount < _controller.MaxJumps)
+            {
+                _stateMachine.SetState(new JumpingState(_controller, _stateMachine, _jumpCount + 1));
+            }
         }
         
         public void OnCollisionEnter(Collision collision)
         {
-            // Verificar si tocó el suelo
             foreach (var contact in collision.contacts)
             {
                 if (Vector3.Angle(contact.normal, Vector3.up) < 5)
