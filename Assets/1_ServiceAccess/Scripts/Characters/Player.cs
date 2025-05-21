@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Excercise1
 {
@@ -9,8 +10,12 @@ namespace Excercise1
 
         private void Reset()
             => id = nameof(Player);
-
+        
         private void Update()
+        {
+            Move();
+        }
+        private void Move()
         {
             transform.position = new Vector3(Mathf.Cos(Time.time * frequency) * amplitude,
                                              Mathf.Sin(Time.time * frequency) * amplitude,
