@@ -1,25 +1,21 @@
-﻿using UnityEngine;
+﻿using Gameplay._2_Gameplay.Scripts.StateMachine;
+using UnityEngine;
 
 namespace Gameplay._2_Gameplay.StateMachine.States
 {
     public class JumpingState : IPlayerState
     {
         private readonly PlayerController _controller;
-        private readonly PlayerStateMachine _stateMachine;
         private Coroutine _jumpCoroutine;
         private readonly int _jumpCount;
 
-        public JumpingState(PlayerController controller, PlayerStateMachine stateMachine)
+        public JumpingState(PlayerController controller) : this(controller, 1)
         {
-            _controller = controller;
-            _stateMachine = stateMachine;
-            _jumpCount = 1;
         }
 
-        private JumpingState(PlayerController controller, PlayerStateMachine stateMachine, int jumpCount)
+        public JumpingState(PlayerController controller, int jumpCount)
         {
             _controller = controller;
-            _stateMachine = stateMachine;
             _jumpCount = jumpCount;
         }
 
@@ -34,29 +30,33 @@ namespace Gameplay._2_Gameplay.StateMachine.States
                 _controller.StopCoroutine(_jumpCoroutine);
         }
 
-        public void HandleMovement(Vector3 direction)
+        public StateTransition HandleMovement(Vector3 direction)
         {
             _controller.Character.SetDirection(direction * _controller.AirborneSpeedMultiplier);
+            return null;
         }
 
-        public void HandleJump()
+        public StateTransition HandleJump()
         {
             if (_jumpCount < _controller.MaxJumps)
             {
-                _stateMachine.SetState(new JumpingState(_controller, _stateMachine, _jumpCount + 1));
+                return new StateTransition(StateType.Jumping, _jumpCount + 1);
             }
+
+            return null;
         }
-        
-        public void OnCollisionEnter(Collision collision)
+
+        public StateTransition OnCollisionEnter(Collision collision)
         {
             foreach (var contact in collision.contacts)
             {
                 if (Vector3.Angle(contact.normal, Vector3.up) < 5)
                 {
-                    _stateMachine.SetState(new GroundedState(_controller, _stateMachine));
-                    break;
+                    return new StateTransition(StateType.Grounded);
                 }
             }
+
+            return null;
         }
     }
 }
