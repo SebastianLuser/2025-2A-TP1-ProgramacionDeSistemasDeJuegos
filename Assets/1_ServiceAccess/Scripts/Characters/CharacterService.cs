@@ -5,26 +5,8 @@ namespace Excercise1
 {
     public class CharacterService : MonoBehaviour
     {
-        private static CharacterService _instance;
-        
         private readonly Dictionary<string, ICharacter> _charactersById = new();
-        
-        public static CharacterService Instance 
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<CharacterService>();
-                    
-                    if (_instance == null)
-                    {
-                        Debug.LogError("CharacterService not found in scene!");
-                    }
-                }
-                return _instance;
-            }
-        }
+        public static CharacterService Instance { get; private set; }
         
         private void Awake()
         {
@@ -33,13 +15,13 @@ namespace Excercise1
         
         private void InitializeSingleton()
         {
-            if (_instance != null && _instance != this)
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
             
-            _instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
 
@@ -69,6 +51,7 @@ namespace Excercise1
             if (string.IsNullOrEmpty(id))
             {
                 character = null;
+                Debug.LogWarning("TryGetCharacter get an empty ID");
                 return false;
             }
             

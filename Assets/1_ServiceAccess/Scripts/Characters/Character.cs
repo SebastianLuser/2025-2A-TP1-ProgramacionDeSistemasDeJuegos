@@ -5,7 +5,13 @@ namespace Excercise1
     public class Character : MonoBehaviour, ICharacter
     {
         [SerializeField] protected string id;
-        public string Id => id;
+        private void Awake()
+        {
+            if (string.IsNullOrWhiteSpace(id)) 
+            {
+                Debug.LogError($"Error id is Null: {id}");
+            }
+        }
         protected virtual void OnEnable()
         {
             //TODO: Add to CharacterService. The id should be the given serialized field. 
@@ -28,9 +34,6 @@ namespace Excercise1
         
         private void UnregisterFromService()
         {
-            if (string.IsNullOrEmpty(id))
-                return;
-            
             if (!CharacterService.Instance.TryRemoveCharacter(id))
             {
                 Debug.LogError($"Error in TryRemoveCharacter - Can't remove character with ID: {id}");
