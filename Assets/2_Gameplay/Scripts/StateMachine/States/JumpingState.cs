@@ -38,12 +38,7 @@ namespace Gameplay._2_Gameplay.StateMachine.States
 
         public StateTransition HandleJump()
         {
-            if (_jumpCount < _controller.MaxJumps)
-            {
-                return new StateTransition(StateType.Jumping, _jumpCount + 1);
-            }
-
-            return null;
+            return _jumpCount < _controller.MaxJumps ? new StateTransition(StateType.Jumping, _jumpCount + 1) : null;
         }
 
         public StateTransition OnCollisionEnter(Collision collision)

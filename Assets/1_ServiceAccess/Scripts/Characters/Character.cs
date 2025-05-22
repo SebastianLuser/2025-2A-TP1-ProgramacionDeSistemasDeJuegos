@@ -9,7 +9,7 @@ namespace Excercise1
         {
             if (string.IsNullOrWhiteSpace(id)) 
             {
-                Debug.LogError($"Error id is Null: {id}");
+                Debug.LogError($"Character ID cannot be null or empty. Current value: '{id}'");
             }
         }
         protected virtual void OnEnable()

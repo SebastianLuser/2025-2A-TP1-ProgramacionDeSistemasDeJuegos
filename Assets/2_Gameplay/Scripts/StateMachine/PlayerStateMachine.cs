@@ -27,11 +27,9 @@ namespace Gameplay
         
         public void Initialize(StateType firstStateType)
         {
-            if (_states.ContainsKey(firstStateType))
-            {
-                _currentState = _states[firstStateType];
-                _currentState.Enter();
-            }
+            if (!_states.ContainsKey(firstStateType)) return;
+            _currentState = _states[firstStateType];
+            _currentState.Enter();
         }
         private void TransitionTo(StateTransition transition)
         {

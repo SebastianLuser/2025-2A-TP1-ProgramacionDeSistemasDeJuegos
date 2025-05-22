@@ -27,35 +27,26 @@ namespace Excercise1
 
         public bool TryAddCharacter(string id, ICharacter character)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                Debug.LogError("Cannot add character with empty ID");
-                return false;
-            }
+            if (!string.IsNullOrEmpty(id)) return _charactersById.TryAdd(id, character);
+            Debug.LogError("Cannot add character with empty ID");
+            return false;
 
-            return  _charactersById.TryAdd(id, character);
         }
         public bool TryRemoveCharacter(string id)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                Debug.LogWarning("Attempted to remove character with empty ID");
-                return false;
-            }
+            if (!string.IsNullOrEmpty(id)) return _charactersById.Remove(id);
+            Debug.LogWarning("Attempted to remove character with empty ID");
+            return false;
 
-            return  _charactersById.Remove(id);
         }
         
         public bool TryGetCharacter(string id, out ICharacter character)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                character = null;
-                Debug.LogWarning("TryGetCharacter get an empty ID");
-                return false;
-            }
-            
-            return _charactersById.TryGetValue(id, out character);
+            if (!string.IsNullOrEmpty(id)) return _charactersById.TryGetValue(id, out character);
+            character = null;
+            Debug.LogWarning("TryGetCharacter get an empty ID");
+            return false;
+
         }
     }
 }

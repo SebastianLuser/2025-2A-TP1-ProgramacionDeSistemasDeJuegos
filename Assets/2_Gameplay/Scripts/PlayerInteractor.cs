@@ -39,22 +39,18 @@ namespace Gameplay
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out _interactable)
-                && interactionText)
-            {
-                interactionText.gameObject.SetActive(true);
-                interactionText.SetText(string.Format(_textFormat, _interactable));
-            }
+            if (!other.TryGetComponent(out _interactable)
+                || !interactionText) return;
+            interactionText.gameObject.SetActive(true);
+            interactionText.SetText(string.Format(_textFormat, _interactable));
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.TryGetComponent(out IInteractable otherInteractable)
-                && otherInteractable == _interactable)
-            {
-                _interactable = null;
-                interactionText?.gameObject.SetActive(false);
-            }
+            if (!other.TryGetComponent(out IInteractable otherInteractable)
+                || otherInteractable != _interactable) return;
+            _interactable = null;
+            interactionText?.gameObject.SetActive(false);
         }
     }
 }
