@@ -1,32 +1,34 @@
-﻿using UnityEngine;
+﻿using Gameplay._2_Gameplay.Scripts.StateMachine;
+using UnityEngine;
 
 namespace Gameplay._2_Gameplay.StateMachine.States
 {
     public class GroundedState : IPlayerState
     {
         private readonly PlayerController _controller;
-        private readonly PlayerStateMachine _stateMachine;
-
-        public GroundedState(PlayerController controller, PlayerStateMachine stateMachine)
+        public GroundedState(PlayerController controller)
         {
             _controller = controller;
-            _stateMachine = stateMachine;
         }
 
         public void Enter() { }
 
         public void Exit() { }
 
-        public void HandleMovement(Vector3 direction)
+        public StateTransition HandleMovement(Vector3 direction)
         {
             _controller.Character.SetDirection(direction);
+            return null; 
         }
 
-        public void HandleJump()
+        public StateTransition HandleJump()
         {
-            _stateMachine.SetState(new JumpingState(_controller, _stateMachine));
+            return new StateTransition(StateType.Jumping, 1);
         }
 
-        public void OnCollisionEnter(Collision collision) { }
+        public StateTransition OnCollisionEnter(Collision collision)
+        {
+            return null;
+        }
     }
 }

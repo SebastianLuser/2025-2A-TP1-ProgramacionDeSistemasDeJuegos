@@ -1,3 +1,4 @@
+using Gameplay._2_Gameplay.Scripts.StateMachine;
 using Gameplay._2_Gameplay.StateMachine.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,8 +24,8 @@ namespace Gameplay
         private void Awake()
         {
             _character = GetComponent<Character>();
-            _stateMachine = new PlayerStateMachine();
-            _stateMachine.Initialize(new GroundedState(this, _stateMachine));
+            _stateMachine = new PlayerStateMachine(this);
+            _stateMachine.Initialize(StateType.Grounded);
         }
 
         private void OnEnable()
